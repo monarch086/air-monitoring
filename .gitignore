@@ -19,6 +19,21 @@ mono_crash.*
 # Arduino IDE
 .theia/
 
+# Compiled output
+dist/
+tmp/
+out-tsc/
+bazel-out/
+
+# Miscellaneous
+.angular/
+.sass-cache/
+connect.lock/
+coverage/
+libpeerconnection.log
+testem.log
+typings/
+
 # Build results
 [Dd]ebug/
 [Dd]ebugPublic/
@@ -444,8 +459,7 @@ $RECYCLE.BIN/
 ##
 ## Visual Studio Code
 ##
-.vscode/*
-!.vscode/settings.json
-!.vscode/tasks.json
-!.vscode/launch.json
-!.vscode/extensions.json
+.vscode/
+
+## Serberless framework
+.serverless/
