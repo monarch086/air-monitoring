@@ -15,18 +15,7 @@ functions:
     handler: service-users::service_users.Function::FunctionHandler
     name: ${sls:stage}-service-users
     url:
-      cors:
-        allowedOrigins:
-            - http://localhost:4200
-            - http://smarthome-front.s3-website.eu-central-1.amazonaws.com
-        allowedHeaders:
-            - Content-Type
-            - X-Amz-Date
-            - Authorization
-            - X-Api-Key
-            - X-Amz-Security-Token
-            - X-Amz-User-Agent
-        allowCredentials: false
+      cors: true
     events:
      - http:
          path: /users
