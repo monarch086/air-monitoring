@@ -1,5 +1,4 @@
 <app-topbar></app-topbar>
-
-<p>measurements-view works!</p>
-<p>measurements-view works!</p>
-<p>measurements-view works!</p>
+<div>
+  <p *ngFor="let user of users">{{user.Id}}: {{user.FirstName}} {{user.LastName}}</p>
+</div>
