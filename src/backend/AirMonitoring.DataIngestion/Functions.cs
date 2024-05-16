@@ -1,45 +1,42 @@
-using System.Net;
 using Amazon.Lambda.Core;
-using Amazon.Lambda.APIGatewayEvents;
-using Amazon.Lambda.Annotations;
-using Amazon.Lambda.Annotations.APIGateway;
+using System.Text.Json.Nodes;
+using AirMonitoring.Core.Persistence;
+using System.Text.Json;
+using AirMonitoring.DataIngestion.Model;
 
 // Assembly attribute to enable the Lambda function's JSON input to be converted into a .NET class.
 [assembly: LambdaSerializer(typeof(Amazon.Lambda.Serialization.SystemTextJson.DefaultLambdaJsonSerializer))]
 
 namespace AirMonitoring.DataIngestion;
 
-public class Functions
+public class Function
 {
-    /// <summary>
-    /// Default constructor that Lambda will invoke.
-    /// </summary>
-    public Functions()
+    public async Task FunctionHandler(JsonObject input, ILambdaContext context)
     {
-    }
+        var repository = new MeasurementsRepo(context.Logger);
 
+        var query = input["queryStringParameters"].Deserialize<QueryModel>();
+        if (query == null) { return; }
 
-    /// <summary>
-    /// A Lambda function to respond to HTTP Get methods from API Gateway
-    /// </summary>
-    /// <remarks>
-    /// This uses the <see href="https://github.com/aws/aws-lambda-dotnet/blob/master/Libraries/src/Amazon.Lambda.Annotations/README.md">Lambda Annotations</see> 
-    /// programming model to bridge the gap between the Lambda programming model and a more idiomatic .NET model.
-    /// 
-    /// This automatically handles reading parameters from an APIGatewayProxyRequest
-    /// as well as syncing the function definitions to serverless.template each time you build.
-    /// 
-    /// If you do not wish to use this model and need to manipulate the API Gateway 
-    /// objects directly, see the accompanying Readme.md for instructions.
-    /// </remarks>
-    /// <param name="context">Information about the invocation, function, and execution environment</param>
-    /// <returns>The response as an implicit <see cref="APIGatewayProxyResponse"/></returns>
-    [LambdaFunction(Policies = "AWSLambdaBasicExecutionRole", MemorySize = 256, Timeout = 30)]
-    [RestApi(LambdaHttpMethod.Get, "/")]
-    public IHttpResult Get(ILambdaContext context)
-    {
-        context.Logger.LogInformation("Handling the 'Get' Request");
+        var requestBody = input["body"];
+        if (requestBody == null) { return; }
 
-        return HttpResults.Ok("Hello AWS Serverless");
+        context.Logger.LogLine(requestBody.ToString());
+
+        try
+        {
+            var record = new MeasurementRecord
+            {
+                DeviceId = query.DeviceId,
+                Date = DateTime.UtcNow.ToString("O"),
+                JsonData = requestBody.ToString()
+            };
+
+            await repository.Add(record);
+        }
+        catch (Exception e)
+        {
+            context.Logger.LogError(e.ToString());
+        }
     }
 }
