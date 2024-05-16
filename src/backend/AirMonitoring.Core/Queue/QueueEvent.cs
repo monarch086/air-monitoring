@@ -1,4 +1,4 @@
-﻿namespace AirMonitoring.Queue
+﻿namespace AirMonitoring.Core.Queue
 {
     public class QueueEvent
     {
