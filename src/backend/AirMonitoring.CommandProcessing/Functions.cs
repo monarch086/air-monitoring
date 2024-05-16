@@ -1,45 +1,45 @@
-using System.Net;
 using Amazon.Lambda.Core;
-using Amazon.Lambda.APIGatewayEvents;
-using Amazon.Lambda.Annotations;
-using Amazon.Lambda.Annotations.APIGateway;
+using System.Text.Json.Nodes;
+using System.Text.Json;
+using Amazon.SQS;
+using Amazon.SQS.Model;
+using AirMonitoring.CommandProcessing.Model.Telegram;
+using AirMonitoring.Core.Queue;
 
 // Assembly attribute to enable the Lambda function's JSON input to be converted into a .NET class.
 [assembly: LambdaSerializer(typeof(Amazon.Lambda.Serialization.SystemTextJson.DefaultLambdaJsonSerializer))]
 
 namespace AirMonitoring.CommandProcessing;
 
-public class Functions
+public class Function
 {
-    /// <summary>
-    /// Default constructor that Lambda will invoke.
-    /// </summary>
-    public Functions()
+    public async Task FunctionHandler(JsonObject input, ILambdaContext context)
     {
-    }
+        var requestBody = input["body"];
+        if (requestBody == null) { return; }
 
+        context.Logger.LogLine(requestBody.ToString());
 
-    /// <summary>
-    /// A Lambda function to respond to HTTP Get methods from API Gateway
-    /// </summary>
-    /// <remarks>
-    /// This uses the <see href="https://github.com/aws/aws-lambda-dotnet/blob/master/Libraries/src/Amazon.Lambda.Annotations/README.md">Lambda Annotations</see> 
-    /// programming model to bridge the gap between the Lambda programming model and a more idiomatic .NET model.
-    /// 
-    /// This automatically handles reading parameters from an APIGatewayProxyRequest
-    /// as well as syncing the function definitions to serverless.template each time you build.
-    /// 
-    /// If you do not wish to use this model and need to manipulate the API Gateway 
-    /// objects directly, see the accompanying Readme.md for instructions.
-    /// </remarks>
-    /// <param name="context">Information about the invocation, function, and execution environment</param>
-    /// <returns>The response as an implicit <see cref="APIGatewayProxyResponse"/></returns>
-    [LambdaFunction(Policies = "AWSLambdaBasicExecutionRole", MemorySize = 256, Timeout = 30)]
-    [RestApi(LambdaHttpMethod.Get, "/")]
-    public IHttpResult Get(ILambdaContext context)
-    {
-        context.Logger.LogInformation("Handling the 'Get' Request");
+        var commandEvent = JsonSerializer.Deserialize<CommandEvent>(requestBody.ToString());
+        var command = commandEvent?.message?.text;
+        context.Logger.LogLine($"Command: {command}");
 
-        return HttpResults.Ok("Hello AWS Serverless");
+        // Publish to SQS Queue
+        var queueUrl = "https://sqs.eu-central-1.amazonaws.com/469321902251/SmartHome-Status";
+        context.Logger.LogLine($"Send command to queue: {queueUrl}.");
+        var queueEvent = new QueueEvent
+        {
+            Command = command,
+            ChatId = commandEvent?.message?.chat?.id ?? 0,
+            Params = new string[] { "DeviceId:S4D-12" }
+        };
+
+        var amazonSQSClient = new AmazonSQSClient();
+        var sendRequest = new SendMessageRequest();
+        sendRequest.QueueUrl = queueUrl;
+        sendRequest.MessageBody = JsonSerializer.Serialize(queueEvent);
+        var sendMessageResponse = await amazonSQSClient.SendMessageAsync(sendRequest);
+
+        context.Logger.LogLine($"Send command to queue - response HTTP Status Code: {sendMessageResponse.HttpStatusCode}.");
     }
 }
