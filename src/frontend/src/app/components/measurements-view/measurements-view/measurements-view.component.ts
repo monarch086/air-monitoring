@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { first } from 'rxjs';
-import { User } from 'src/app/model/user';
-import { UserService } from 'src/app/services/users.service';
+import { MeasurementType } from 'src/app/model/measurement-type';
+import { MeasurementsService } from 'src/app/services/measurements.service';
 
 @Component({
   selector: 'app-measurements-view',
@@ -9,18 +9,14 @@ import { UserService } from 'src/app/services/users.service';
   styleUrls: ['./measurements-view.component.scss']
 })
 export class MeasurementsViewComponent implements OnInit {
-  public users: User[] = [
-    { Id: 1, FirstName: 'Steve', LastName: 'Jobs'},
-    { Id: 2, FirstName: 'Paul', LastName: 'McCartney'},
-    { Id: 3, FirstName: 'Julia', LastName: 'Roberts'}
-  ];
+  public temperature: number[] = [];
 
-  constructor(private readonly userService: UserService) {
+  constructor(private readonly measurementsService: MeasurementsService) {
   }
 
   public ngOnInit(): void {
-    this.userService.getUsers().pipe(first()).subscribe((response: User[]) => {
-      this.users.push(...response);
+    this.measurementsService.getMeasurements(MeasurementType.Temperature, 1).pipe(first()).subscribe((response: number[]) => {
+      this.temperature = response;
     });
   }
 }
