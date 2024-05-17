@@ -30,6 +30,7 @@ functions:
     package:
       artifact: AirMonitoring.DataProviding/bin/Release/net6.0/deploy-package.zip
     name: air-monitoring-${sls:stage}-data-providing
+    timeout: 30
     url:
       cors: true
     events:
