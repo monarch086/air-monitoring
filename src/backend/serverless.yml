@@ -5,7 +5,7 @@ provider:
   name: aws
   runtime: dotnet6
   region: eu-central-1
-  memorySize: 512
+  memorySize: 256
   versionFunctions: false
 
 package:
@@ -24,6 +24,30 @@ functions:
          path: /measurements
          method: GET
 
+  data-ingestion:
+    handler: AirMonitoring.DataIngestion::AirMonitoring.DataIngestion.Function::FunctionHandler
+    package:
+      artifact: AirMonitoring.DataIngestion/bin/Release/net6.0/deploy-package.zip
+    name: air-monitoring-${sls:stage}-data-ingestion
+    url:
+      cors: true
+    events:
+     - http:
+         path: /measurements
+         method: POST
+
+  data-validation:
+    handler: AirMonitoring.DataValidation::AirMonitoring.DataValidation.Function::FunctionHandler
+    package:
+      artifact: AirMonitoring.DataValidation/bin/Release/net6.0/deploy-package.zip
+    name: air-monitoring-${sls:stage}-data-validation
+
+  data-analysis:
+    handler: AirMonitoring.DataAnalysis::AirMonitoring.DataAnalysis.Function::FunctionHandler
+    package:
+      artifact: AirMonitoring.DataAnalysis/bin/Release/net6.0/deploy-package.zip
+    name: air-monitoring-${sls:stage}-data-analysis
+
   alerting:
     handler: AirMonitoring.Alerting::AirMonitoring.Alerting.Function::FunctionHandler
     package:
@@ -31,3 +55,27 @@ functions:
     name: air-monitoring-${sls:stage}-alerting
     # events:
       # - AwsSns: arn:aws:sns:eu-central-1:123456789012:AlertingTopic
+
+  command-processing:
+    handler: AirMonitoring.CommandProcessing::AirMonitoring.CommandProcessing.Function::FunctionHandler
+    package:
+      artifact: AirMonitoring.CommandProcessing/bin/Release/net6.0/deploy-package.zip
+    name: air-monitoring-${sls:stage}-command-processing
+    url:
+      cors: true
+    events:
+     - http:
+         path: /command
+         method: POST
+
+  monthly-reporting:
+    handler: AirMonitoring.MonthlyReporting::AirMonitoring.MonthlyReporting.Function::FunctionHandler
+    package:
+      artifact: AirMonitoring.MonthlyReporting/bin/Release/net6.0/deploy-package.zip
+    name: air-monitoring-${sls:stage}-monthly-reporting
+
+  yearly-reporting:
+    handler: AirMonitoring.YearlyReporting::AirMonitoring.YearlyReporting.Function::FunctionHandler
+    package:
+      artifact: AirMonitoring.YearlyReporting/bin/Release/net6.0/deploy-package.zip
+    name: air-monitoring-${sls:stage}-yearly-reporting
