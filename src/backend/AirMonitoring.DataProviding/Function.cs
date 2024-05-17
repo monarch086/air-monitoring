@@ -8,8 +8,8 @@ using Amazon.Lambda.APIGatewayEvents;
 using Amazon.Lambda.Core;
 using System.Text.Json;
 using System.Text.Json.Nodes;
+using System.Text.Json.Serialization;
 
-// Assembly attribute to enable the Lambda function's JSON input to be converted into a .NET class.
 [assembly: LambdaSerializer(typeof(Amazon.Lambda.Serialization.SystemTextJson.DefaultLambdaJsonSerializer))]
 
 namespace AirMonitoring.DataProviding;
@@ -27,13 +27,19 @@ public class Function
     {
         try
         {
-            var query = input["queryStringParameters"].Deserialize<QueryModel>();
+            var options = new JsonSerializerOptions()
+            {
+                NumberHandling = JsonNumberHandling.AllowReadingFromString | JsonNumberHandling.WriteAsString
+            };
+            options.Converters.Add(new JsonStringEnumConverter());
+
+            var query = input["queryStringParameters"].Deserialize<QueryModel>(options);
             if (query == null) { return new BadRequestResponse(); }
 
             var repository = new MeasurementsRepo(context.Logger);
             var deviceId = "S4D-12";
 
-            var range = TimeSpan.FromHours(10);
+            var range = TimeSpan.FromDays(query.Days);
             var from = DateTime.UtcNow - range;
             var till = DateTime.UtcNow;
             var records = await repository.GetList(deviceId, from, till);
