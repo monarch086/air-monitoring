@@ -11,8 +11,8 @@ public class Function
 {
     public async Task<APIGatewayProxyResponse> FunctionHandler(JsonObject input, ILambdaContext context)
     {
-        context.Logger.LogLine("Hello from AirMonitoring.DataAnalysis");
+        context.Logger.LogLine("Hello from AirMonitoring.MonthlyReporting");
 
-        return new SuccessResponse("Hello from AirMonitoring.DataAnalysis");
+        return new SuccessResponse("Hello from AirMonitoring.MonthlyReporting");
     }
 }
