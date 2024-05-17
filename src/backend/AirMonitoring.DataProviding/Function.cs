@@ -14,7 +14,7 @@ using System.Text.Json.Nodes;
 
 namespace AirMonitoring.DataProviding;
 
-public class Functions
+public class Function
 {
     private Dictionary<MeasurementType, Func<Measurement, string?>> dataSelectors = new Dictionary<MeasurementType, Func<Measurement, string?>>()
     {
