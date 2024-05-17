@@ -1,4 +1,5 @@
-service: service-users
+# https://www.serverless.com/framework/docs-providers-aws-guide-functions
+service: air-monitoring
 
 provider:
   name: aws
@@ -8,15 +9,25 @@ provider:
   versionFunctions: false
 
 package:
-  artifact: service-users/bin/Release/net6.0/deploy-package.zip
+  individually: true
 
 functions:
-  service-users:
-    handler: service-users::service_users.Function::FunctionHandler
-    name: ${sls:stage}-service-users
+  data-providing:
+    handler: AirMonitoring.DataProviding::AirMonitoring.DataProviding.Function::FunctionHandler
+    package:
+      artifact: AirMonitoring.DataProviding/bin/Release/net6.0/deploy-package.zip
+    name: air-monitoring-${sls:stage}-data-providing
     url:
       cors: true
     events:
      - http:
-         path: /users
+         path: /measurements
          method: GET
+
+  alerting:
+    handler: AirMonitoring.Alerting::AirMonitoring.Alerting.Function::FunctionHandler
+    package:
+      artifact: AirMonitoring.Alerting/bin/Release/net6.0/deploy-package.zip
+    name: air-monitoring-${sls:stage}-alerting
+    # events:
+      # - AwsSns: arn:aws:sns:eu-central-1:123456789012:AlertingTopic
