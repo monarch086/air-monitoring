@@ -16,11 +16,11 @@ namespace AirMonitoring.DataProviding;
 
 public class Function
 {
-    private Dictionary<MeasurementType, Func<Measurement, string?>> dataSelectors = new Dictionary<MeasurementType, Func<Measurement, string?>>()
+    private Dictionary<MeasurementType, Func<Measurement, MeasurementItem>> dataSelectors = new Dictionary<MeasurementType, Func<Measurement, MeasurementItem>>()
     {
-        { MeasurementType.Temperature, m => m.Sht31?.Temperature },
-        { MeasurementType.Humidity, m => m.Sht31?.Humidity },
-        { MeasurementType.Pressure, m => m.Bmp085?.Pressure.ToString() }
+        { MeasurementType.Temperature, m => new MeasurementItem { Date = m.Date, Value = m.Sht31?.Temperature } },
+        { MeasurementType.Humidity, m => new MeasurementItem { Date = m.Date, Value = m.Sht31?.Humidity } },
+        { MeasurementType.Pressure, m => new MeasurementItem { Date = m.Date, Value = m.Bmp085?.Pressure.ToString() } },
     };
 
     public async Task<APIGatewayProxyResponse> FunctionHandler(JsonObject input, ILambdaContext context)
@@ -56,7 +56,7 @@ public class Function
 
             var data = filledMeasurements
                 .Select(selector)
-                .Where(v => v != null)
+                .Where(m => m.Value != null)
                 .ToArray();
 
             return new SuccessResponse(JsonSerializer.Serialize(data));
