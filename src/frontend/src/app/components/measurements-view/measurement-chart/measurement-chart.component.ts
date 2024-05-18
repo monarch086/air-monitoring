@@ -31,7 +31,7 @@ export class MeasurementChartComponent implements OnInit, OnChanges {
       ...DEFAULT_CHART_OPTIONS,
       series: [ measurementItemsToSeries(this.data ?? [], this.name) ],
       colors: this.getChartColorsArray(CHART_COLORS),
-      yaxis: metricToAxisConfigAdapter(this.type, MEASUREMENT_LIMITS.get(this.type) ?? DEFAULT_LIMITS)
+      yaxis: metricToAxisConfigAdapter(MEASUREMENT_LIMITS.get(this.type) ?? DEFAULT_LIMITS)
     } as ChartOptions;
 
     return options;

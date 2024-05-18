@@ -38,4 +38,5 @@ export interface AxisLimits {
   min: number;
   max: number;
   tickAmount: number;
+  title: string;
 }
