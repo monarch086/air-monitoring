@@ -4,6 +4,7 @@ import { MeasurementsViewComponent } from './measurements-view/measurements-view
 import { SharedModule } from 'src/app/shared/shared.module';
 import { MeasurementChartComponent } from './measurement-chart/measurement-chart.component';
 import { NgApexchartsModule } from 'ng-apexcharts';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -11,6 +12,7 @@ import { NgApexchartsModule } from 'ng-apexcharts';
     MeasurementChartComponent
   ],
   imports: [
+    FormsModule,
     CommonModule,
     SharedModule,
     NgApexchartsModule

@@ -6,8 +6,17 @@
     </div>
   </div>
   <div class="card-body">
-    <app-measurement-chart [type]="types.Temperature" [days]="daysPeriod" [data]="temperatureData"></app-measurement-chart>
-    <app-measurement-chart [type]="types.Humidity" [days]="daysPeriod" [data]="humidityData"></app-measurement-chart>
-    <app-measurement-chart [type]="types.Pressure" [days]="daysPeriod" [data]="pressureData"></app-measurement-chart>
+    <div class="col-sm-12 col-md-4 col-lg-3 col-xl-2 px-4">
+      <label class="form-label">Select period:</label>
+      <select
+        class="form-select"
+        [(ngModel)]="selectedPeriod"
+        (ngModelChange)="handlePeriodUpdated(selectedPeriod)">
+        <option *ngFor="let period of periods" [value]="period.value">{{ period.name }}</option>
+      </select>
+    </div>
+    <app-measurement-chart [type]="types.Temperature" [days]="selectedPeriod" [data]="temperatureData"></app-measurement-chart>
+    <app-measurement-chart [type]="types.Humidity" [days]="selectedPeriod" [data]="humidityData"></app-measurement-chart>
+    <app-measurement-chart [type]="types.Pressure" [days]="selectedPeriod" [data]="pressureData"></app-measurement-chart>
   </div>
 </div>

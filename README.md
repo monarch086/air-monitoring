@@ -32,5 +32,6 @@ The frontend will run on <http://localhost:4201/>
 
 ````sh
 cd ./src/frontend
+npm run build
 serverless deploy
 ````
