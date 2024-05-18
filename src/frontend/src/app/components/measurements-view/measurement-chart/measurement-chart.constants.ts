@@ -2,14 +2,16 @@ import { MeasurementType } from 'src/app/model/measurement-type';
 import { AxisLimits, ChartOptions } from './measurement-chart.model';
 
 export const CHART_COLORS: string[] = [
-  '--vz-info',
-  '--vz-primary',
-  '--vz-danger',
-  '--vz-warning',
-  '--vz-success'
+  '#2E93fA', '#66DA26', '#546E7A', '#E91E63', '#FF9800'
 ];
 
 const TOOLBAR_Y_POSITION: number = -37;
+
+export const DEFAULT_LIMITS: AxisLimits = {
+  min: 0,
+  max: 40,
+  tickAmount: 4
+} as AxisLimits;
 
 export const DEFAULT_CHART_OPTIONS: ChartOptions = {
   series: [],
@@ -31,18 +33,14 @@ export const DEFAULT_CHART_OPTIONS: ChartOptions = {
     enabled: false,
   },
   stroke: {
-    width: [3, 3],
-    curve: 'straight'
+    width: 2,
+    curve: 'smooth'
   },
   markers: {
-    size: 6,
+    size: 2,
   },
   yaxis: [
-    {
-      min: 0,
-      max: 40,
-      tickAmount: 4
-    }
+    DEFAULT_LIMITS
   ],
   xaxis: {
     type: 'datetime',
@@ -64,11 +62,5 @@ export const DEFAULT_CHART_OPTIONS: ChartOptions = {
 export const MEASUREMENT_LIMITS: Map<MeasurementType, AxisLimits> = new Map([
   [ MeasurementType.Temperature, { min: 0, max: 40, tickAmount: 4 } as AxisLimits ],
   [ MeasurementType.Humidity, { min: 0, max: 60, tickAmount: 4 } as AxisLimits ],
-  [ MeasurementType.Pressure, { min: 50000, max: 150000, tickAmount: 4 } as AxisLimits ],
+  [ MeasurementType.Pressure, { min: 99000, max: 100000, tickAmount: 4 } as AxisLimits ],
 ]);
-
-export const DEFAULT_LIMITS: AxisLimits = {
-  min: 0,
-  max: 40,
-  tickAmount: 4
-} as AxisLimits;
