@@ -1,4 +1,4 @@
-service: smarthome-front
+service: air-monitoring-front
 
 provider:
   name: aws
@@ -10,5 +10,5 @@ plugins:
 
 custom:
   s3Sync:
-    - bucketName: smarthome-front
-      localDir: dist/smarthome-front/
+    - bucketName: air.monitoring
+      localDir: dist/air-monitoring/
