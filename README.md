@@ -2,7 +2,7 @@
 
 ## Getting started
 
-App is available at: <http://smarthome-front.s3-website.eu-central-1.amazonaws.com/>
+App is available at: <http://air.monitoring.s3-website.eu-central-1.amazonaws.com>
 
 ## Build packages
 
