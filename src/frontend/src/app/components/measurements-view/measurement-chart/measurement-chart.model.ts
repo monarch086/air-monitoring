@@ -33,3 +33,9 @@ export interface SeriesItem {
   x: number;
   y: number;
 }
+
+export interface AxisLimits {
+  min: number;
+  max: number;
+  tickAmount: number;
+}

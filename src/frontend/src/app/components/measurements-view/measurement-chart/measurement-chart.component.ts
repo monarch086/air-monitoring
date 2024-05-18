@@ -1,9 +1,9 @@
 import { Component, Input, OnChanges, OnInit } from '@angular/core';
 import { MeasurementType } from 'src/app/model/measurement-type';
 import { ChartOptions } from './measurement-chart.model';
-import { CHART_COLORS, DEFAULT_CHART_OPTIONS } from './measurement-chart.constants';
+import { CHART_COLORS, DEFAULT_CHART_OPTIONS, DEFAULT_LIMITS, MEASUREMENT_LIMITS } from './measurement-chart.constants';
 import { MeasurementItem } from 'src/app/model/measurement-item';
-import { measurementItemsToSeries } from './measurement-chart.adapters';
+import { measurementItemsToSeries, metricToAxisConfigAdapter } from './measurement-chart.adapters';
 
 @Component({
   selector: 'app-measurement-chart',
@@ -31,6 +31,7 @@ export class MeasurementChartComponent implements OnInit, OnChanges {
       ...DEFAULT_CHART_OPTIONS,
       series: [ measurementItemsToSeries(this.data ?? [], this.name) ],
       colors: this.getChartColorsArray(CHART_COLORS),
+      yaxis: metricToAxisConfigAdapter(this.type, MEASUREMENT_LIMITS.get(this.type) ?? DEFAULT_LIMITS)
     } as ChartOptions;
 
     return options;
