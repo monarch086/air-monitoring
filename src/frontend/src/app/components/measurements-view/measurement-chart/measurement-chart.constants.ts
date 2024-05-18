@@ -61,5 +61,5 @@ export const DEFAULT_CHART_OPTIONS: ChartOptions = {
 export const MEASUREMENT_LIMITS: Map<MeasurementType, AxisLimits> = new Map([
   [ MeasurementType.Temperature, { min: 0, max: 40, tickAmount: 4, title: 'Temperature, °C' } as AxisLimits ],
   [ MeasurementType.Humidity, { min: 0, max: 60, tickAmount: 4, title: 'Humidity, %' } as AxisLimits ],
-  [ MeasurementType.Pressure, { min: 99000, max: 100000, tickAmount: 4, title: 'Pressure, Pa' } as AxisLimits ],
+  [ MeasurementType.Pressure, { min: 99000, max: 101000, tickAmount: 4, title: 'Pressure, Pa' } as AxisLimits ],
 ]);
