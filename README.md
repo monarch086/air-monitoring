@@ -18,6 +18,16 @@ cd ./src/backend
 serverless deploy
 ````
 
+## Run frontend
+
+````sh
+cd ./src/frontend
+npm i
+npm start
+````
+
+The frontend will run on <http://localhost:4201/>
+
 ## Deploy frontend
 
 ````sh
