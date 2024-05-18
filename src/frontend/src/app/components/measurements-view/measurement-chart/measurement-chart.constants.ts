@@ -38,9 +38,6 @@ export const DEFAULT_CHART_OPTIONS: ChartOptions = {
     width: 2,
     curve: 'smooth'
   },
-  markers: {
-    size: 2,
-  },
   yaxis: [
     DEFAULT_LIMITS as ApexYAxis
   ],

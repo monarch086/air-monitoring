@@ -3,7 +3,6 @@ import {
   ApexDataLabels,
   ApexGrid,
   ApexLegend,
-  ApexMarkers,
   ApexStroke,
   ApexTooltip,
   ApexXAxis,
@@ -13,7 +12,6 @@ import {
 export type ChartOptions = {
   series: DataSeries[];
   chart: ApexChart;
-  markers: ApexMarkers;
   dataLabels: ApexDataLabels;
   stroke: ApexStroke;
   colors: any[];
