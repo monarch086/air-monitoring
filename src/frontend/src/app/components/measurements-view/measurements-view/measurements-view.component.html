@@ -2,5 +2,7 @@
 <div>
   <h1>Air Monitoring</h1>
   <h3>Nanoservices-driven system</h3>
-  <p>{{ temperature.join(', ') }}</p>
+  <app-measurement-chart [type]="types.Temperature" [days]="daysPeriod" [data]="temperatureData"></app-measurement-chart>
+  <app-measurement-chart [type]="types.Humidity" [days]="daysPeriod" [data]="humidityData"></app-measurement-chart>
+  <app-measurement-chart [type]="types.Pressure" [days]="daysPeriod" [data]="pressureData"></app-measurement-chart>
 </div>
