@@ -4,6 +4,7 @@ import { Observable, map } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { MeasurementType } from '../model/measurement-type';
 import { MeasurementItem, MeasurementResponseItem } from '../model/measurement-item';
+import { toLocalTime } from '../shared/functions/to-local-time';
 
 @Injectable({
   providedIn: 'root'
@@ -20,7 +21,7 @@ export class MeasurementsService {
     return this.httpClient.get<MeasurementResponseItem[]>(`${environment.APIGateway}/${environment.envName}/measurements`, { params })
     .pipe(map((response: MeasurementResponseItem[]) => response.map(i =>
       ({
-        Date: new Date(i.Date),
+        Date: toLocalTime(i.Date),
         Value: Number(i.Value)
       } as MeasurementItem))));
   }
