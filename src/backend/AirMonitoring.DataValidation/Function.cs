@@ -11,8 +11,6 @@ public class Function
 {
     public async Task FunctionHandler(SNSEvent snsEvent, ILambdaContext context)
     {
-        context.Logger.LogLine("Hello from AirMonitoring.DataValidation");
-
         foreach (var record in snsEvent.Records)
         {
             var snsMessage = record.Sns.Message;
@@ -20,8 +18,7 @@ public class Function
 
             try
             {
-                // Deserialize the message into the desired object
-                var message = JsonConvert.DeserializeObject<ValidationEvent>(snsMessage);
+                var message = JsonConvert.DeserializeObject<NewRecordEvent>(snsMessage);
 
 
                 // Process the deserialized message as needed

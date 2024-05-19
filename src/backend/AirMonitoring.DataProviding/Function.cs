@@ -1,7 +1,7 @@
 using AirMonitoring.Core.Extensions;
 using AirMonitoring.Core.HTTP;
 using AirMonitoring.Core.HttpResponses;
-using AirMonitoring.Core.Model;
+using AirMonitoring.Core.Model.MeasurementModel;
 using AirMonitoring.Core.Persistence;
 using AirMonitoring.DataProviding.Model;
 using Amazon.Lambda.APIGatewayEvents;

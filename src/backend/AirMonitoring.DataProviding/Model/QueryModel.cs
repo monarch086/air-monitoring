@@ -1,4 +1,4 @@
-﻿using AirMonitoring.Core.Model;
+﻿using AirMonitoring.Core.Model.MeasurementModel;
 
 namespace AirMonitoring.DataProviding.Model
 {

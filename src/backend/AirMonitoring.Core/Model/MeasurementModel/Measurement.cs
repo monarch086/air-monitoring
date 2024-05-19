@@ -1,7 +1,7 @@
 ﻿using System.Text;
 using System.Text.Json.Serialization;
 
-namespace AirMonitoring.Core.Model
+namespace AirMonitoring.Core.Model.MeasurementModel
 {
     public class Measurement
     {

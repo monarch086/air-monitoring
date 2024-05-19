@@ -1,4 +1,4 @@
-﻿namespace AirMonitoring.Core.Model
+﻿namespace AirMonitoring.Core.Model.MeasurementModel
 {
     public class Bmp085Data
     {

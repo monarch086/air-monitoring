@@ -1,4 +1,4 @@
-﻿using AirMonitoring.Core.Model;
+﻿using AirMonitoring.Core.Model.MeasurementModel;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 

@@ -43,7 +43,7 @@ public class Function
             await repository.Add(record);
             context.Logger.LogLine($"Record [{requestBody}] was saved to database.");
 
-            var message = new ValidationEvent
+            var message = new NewRecordEvent
             {
                 DeviceId = record.DeviceId,
                 Date = record.Date
