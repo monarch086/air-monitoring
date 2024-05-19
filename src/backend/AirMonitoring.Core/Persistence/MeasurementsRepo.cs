@@ -8,7 +8,7 @@ namespace AirMonitoring.Core.Persistence
 {
     public class MeasurementsRepo
     {
-        private static string measurementsTableName = "SmartHome.Measurements";
+        protected virtual string TableName => "SmartHome.Measurements";
 
         private readonly AmazonDynamoDBClient client;
         private readonly Table measurementsTable;
@@ -17,7 +17,7 @@ namespace AirMonitoring.Core.Persistence
         public MeasurementsRepo(ILambdaLogger logger)
         {
             client = new AmazonDynamoDBClient();
-            measurementsTable = Table.LoadTable(client, measurementsTableName);
+            measurementsTable = Table.LoadTable(client, TableName);
             this.logger = logger;
         }
 
@@ -122,7 +122,7 @@ namespace AirMonitoring.Core.Persistence
         {
             var request = new QueryRequest
             {
-                TableName = measurementsTableName,
+                TableName = TableName,
                 ReturnConsumedCapacity = "TOTAL",
                 KeyConditionExpression = "DeviceId = :v_deviceId and #D between :v_start and :v_end",
 

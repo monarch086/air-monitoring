@@ -35,6 +35,17 @@ provider:
             - "sns:DeleteTopic"
             - "sns:CreateTopic"
           Resource: "arn:aws:sns:eu-central-1:469321902251:air-monitoring-*"
+        - Effect: "Allow"
+          Action:
+           - "sqs:SendMessage"
+           - "sqs:ReceiveMessage"
+           - "sqs:DeleteMessage"
+           - "sqs:GetQueueUrl"
+           - "sqs:GetQueueAttributes"
+           - "sqs:ChangeMessageVisibility"
+           - "sqs:ListQueues"
+           - "sqs:ListQueueTags"
+          Resource: "arn:aws:sqs:eu-central-1:469321902251:air-monitoring-*"
 
 package:
   individually: true
@@ -115,3 +126,19 @@ functions:
     package:
       artifact: AirMonitoring.YearlyReporting/bin/Release/net6.0/deploy-package.zip
     name: air-monitoring-${sls:stage}-yearly-reporting
+
+  aggregation:
+    handler: AirMonitoring.Aggregation::AirMonitoring.Aggregation.Function::FunctionHandler
+    package:
+      artifact: AirMonitoring.Aggregation/bin/Release/net6.0/deploy-package.zip
+    name: air-monitoring-${sls:stage}-aggregation
+    timeout: 120
+    events:
+      - sqs: arn:aws:sqs:eu-central-1:469321902251:air-monitoring-aggregation-queue
+
+  aggregation-trigger:
+    handler: AirMonitoring.AggregationTrigger::AirMonitoring.AggregationTrigger.Function::FunctionHandler
+    package:
+      artifact: AirMonitoring.AggregationTrigger/bin/Release/net6.0/deploy-package.zip
+    name: air-monitoring-${sls:stage}-aggregation-trigger
+    timeout: 30

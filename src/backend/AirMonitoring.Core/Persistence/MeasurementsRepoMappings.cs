@@ -3,7 +3,7 @@ using Amazon.DynamoDBv2.Model;
 
 namespace AirMonitoring.Core.Persistence
 {
-    internal static class DbMappings
+    internal static class MeasurementsRepoMappings
     {
         public static Document ToDocument(this MeasurementRecord record)
         {

@@ -25,7 +25,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AirMonitoring.MonthlyReport
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AirMonitoring.YearlyReporting", "AirMonitoring.YearlyReporting\AirMonitoring.YearlyReporting.csproj", "{4ACCD913-2A16-46DD-81E6-535E5656D9D8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AirMonitoring.Core", "AirMonitoring.Core\AirMonitoring.Core.csproj", "{31F1D49D-3603-4C9B-B07A-F6A30942ED42}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AirMonitoring.Core", "AirMonitoring.Core\AirMonitoring.Core.csproj", "{31F1D49D-3603-4C9B-B07A-F6A30942ED42}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AirMonitoring.Aggregation", "AirMonitoring.Aggregation\AirMonitoring.Aggregation.csproj", "{A76A8296-4E39-4F5F-ADEE-C0587C8A0BDE}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AirMonitoring.AggregationTrigger", "AirMonitoring.AggregationTrigger\AirMonitoring.AggregationTrigger.csproj", "{2A7E453B-7320-49AC-8D38-06393546EDD7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -73,6 +77,14 @@ Global
 		{31F1D49D-3603-4C9B-B07A-F6A30942ED42}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{31F1D49D-3603-4C9B-B07A-F6A30942ED42}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{31F1D49D-3603-4C9B-B07A-F6A30942ED42}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A76A8296-4E39-4F5F-ADEE-C0587C8A0BDE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A76A8296-4E39-4F5F-ADEE-C0587C8A0BDE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A76A8296-4E39-4F5F-ADEE-C0587C8A0BDE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A76A8296-4E39-4F5F-ADEE-C0587C8A0BDE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2A7E453B-7320-49AC-8D38-06393546EDD7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2A7E453B-7320-49AC-8D38-06393546EDD7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2A7E453B-7320-49AC-8D38-06393546EDD7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2A7E453B-7320-49AC-8D38-06393546EDD7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -89,6 +101,8 @@ Global
 		{09040A1E-31C4-49BE-AAAE-612A308E3141} = {C75B7930-F5DB-46DD-8CA7-56B40F0A4EDE}
 		{4ACCD913-2A16-46DD-81E6-535E5656D9D8} = {C75B7930-F5DB-46DD-8CA7-56B40F0A4EDE}
 		{31F1D49D-3603-4C9B-B07A-F6A30942ED42} = {C75B7930-F5DB-46DD-8CA7-56B40F0A4EDE}
+		{A76A8296-4E39-4F5F-ADEE-C0587C8A0BDE} = {C75B7930-F5DB-46DD-8CA7-56B40F0A4EDE}
+		{2A7E453B-7320-49AC-8D38-06393546EDD7} = {C75B7930-F5DB-46DD-8CA7-56B40F0A4EDE}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {EF5A931D-482C-467E-88FD-84DD91B6B852}
