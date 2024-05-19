@@ -20,6 +20,19 @@ provider:
             - dynamodb:UpdateItem
             - dynamodb:DeleteItem
           Resource: 'arn:aws:dynamodb:eu-central-1:469321902251:table/SmartHome.Measurements'
+        - Effect: "Allow"
+          Action:
+            - "sns:Publish"
+            - "sns:Subscribe"
+            - "sns:Unsubscribe"
+            - "sns:Receive"
+            - "sns:ListSubscriptions"
+            - "sns:ListTopics"
+            - "sns:GetTopicAttributes"
+            - "sns:SetTopicAttributes"
+            - "sns:DeleteTopic"
+            - "sns:CreateTopic"
+          Resource: "*"
 
 package:
   individually: true
@@ -55,6 +68,9 @@ functions:
     package:
       artifact: AirMonitoring.DataValidation/bin/Release/net6.0/deploy-package.zip
     name: air-monitoring-${sls:stage}-data-validation
+    events:
+      - sns:
+          topicName: air-monitoring-record-added
 
   data-analysis:
     handler: AirMonitoring.DataAnalysis::AirMonitoring.DataAnalysis.Function::FunctionHandler

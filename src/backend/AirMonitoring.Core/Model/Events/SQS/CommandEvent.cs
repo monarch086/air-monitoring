@@ -1,6 +1,6 @@
-﻿namespace AirMonitoring.Core.Queue
+﻿namespace AirMonitoring.Core.Model.Events.SQS
 {
-    public class QueueEvent
+    public class CommandEvent
     {
         public string? Command { get; set; }
 

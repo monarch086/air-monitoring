@@ -6,6 +6,11 @@ using AirMonitoring.DataIngestion.Model;
 using Amazon.Lambda.APIGatewayEvents;
 using AirMonitoring.Core.HttpResponses;
 using AirMonitoring.Core.HTTP;
+using Newtonsoft.Json;
+using Amazon.SimpleNotificationService.Model;
+using AirMonitoring.Core.Model.Events.SNS;
+using AirMonitoring.Core.Resources;
+using Amazon.SimpleNotificationService;
 
 [assembly: LambdaSerializer(typeof(Amazon.Lambda.Serialization.SystemTextJson.DefaultLambdaJsonSerializer))]
 
@@ -18,6 +23,7 @@ public class Function
         try
         {
             var repository = new MeasurementsRepo(context.Logger);
+            var snsClient = new AmazonSimpleNotificationServiceClient();
 
             var query = input["queryStringParameters"].Deserialize<QueryModel>();
             if (query == null) { return new BadRequestResponse(); }
@@ -35,6 +41,24 @@ public class Function
             };
 
             await repository.Add(record);
+            context.Logger.LogLine($"Record [{requestBody}] was saved to database.");
+
+            var message = new ValidationEvent
+            {
+                DeviceId = record.DeviceId,
+                Date = record.Date
+            };
+
+            var messageJson = JsonConvert.SerializeObject(message);
+            var publishRequest = new PublishRequest
+            {
+                TopicArn = SnsTopics.NewRecordAddedTopic,
+                Message = messageJson,
+                Subject = "New Record Added"
+            };
+
+            var response = await snsClient.PublishAsync(publishRequest);
+            context.Logger.LogLine($"Message [{messageJson}] was published to SNS topic with ID: {response.MessageId}.");
 
             return new SuccessResponse("Data was successfully saved.");
         }
