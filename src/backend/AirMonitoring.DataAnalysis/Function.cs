@@ -1,7 +1,6 @@
 using Amazon.Lambda.Core;
-using Amazon.Lambda.APIGatewayEvents;
-using System.Text.Json.Nodes;
-using AirMonitoring.Core.HTTP;
+using Amazon.Lambda.SNSEvents;
+using Amazon.SimpleNotificationService;
 
 [assembly: LambdaSerializer(typeof(Amazon.Lambda.Serialization.SystemTextJson.DefaultLambdaJsonSerializer))]
 
@@ -9,10 +8,14 @@ namespace AirMonitoring.DataAnalysis;
 
 public class Function
 {
-    public async Task<APIGatewayProxyResponse> FunctionHandler(JsonObject input, ILambdaContext context)
+    public async Task FunctionHandler(SNSEvent snsEvent, ILambdaContext context)
     {
-        context.Logger.LogLine("Hello from AirMonitoring.DataAnalysis");
+        var snsClient = new AmazonSimpleNotificationServiceClient();
 
-        return new SuccessResponse("Hello from AirMonitoring.DataAnalysis");
+        foreach (var record in snsEvent.Records)
+        {
+            var snsMessage = record.Sns.Message;
+            context.Logger.LogLine($"Received SNS message: {snsMessage}");
+        }
     }
 }

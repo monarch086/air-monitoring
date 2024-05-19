@@ -79,14 +79,18 @@ functions:
     package:
       artifact: AirMonitoring.DataAnalysis/bin/Release/net6.0/deploy-package.zip
     name: air-monitoring-${sls:stage}-data-analysis
+    events:
+      - sns:
+          topicName: air-monitoring-record-validated
 
   alerting:
     handler: AirMonitoring.Alerting::AirMonitoring.Alerting.Function::FunctionHandler
     package:
       artifact: AirMonitoring.Alerting/bin/Release/net6.0/deploy-package.zip
     name: air-monitoring-${sls:stage}-alerting
-    # events:
-      # - AwsSns: arn:aws:sns:eu-central-1:123456789012:AlertingTopic
+    events:
+      - sns:
+          topicName: air-monitoring-anomaly-detected
 
   command-processing:
     handler: AirMonitoring.CommandProcessing::AirMonitoring.CommandProcessing.Function::FunctionHandler

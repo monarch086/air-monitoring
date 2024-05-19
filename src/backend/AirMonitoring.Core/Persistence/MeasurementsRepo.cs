@@ -54,6 +54,36 @@ namespace AirMonitoring.Core.Persistence
             return null;
         }
 
+        public async Task<MeasurementRecord?> Get(string deviceId, string date)
+        {
+            var document = await GetDocument(deviceId, date);
+
+            return document != null ? document.ToMeasurementRecord() : null;
+        }
+
+        public async Task<bool> Delete(string deviceId, string date)
+        {
+            try
+            {
+                var document = await GetDocument(deviceId, date);
+                if (document == null)
+                {
+                    logger.LogError($"[Delete] Document with key deviceId = {deviceId} and date = {date} not found.");
+                    return false;
+                }
+
+                var result = await measurementsTable.DeleteItemAsync(document);
+
+                logger.LogInformation($"[Delete] DeleteItem response: {result != null}");
+                return result != null;
+            }
+            catch (Exception ex)
+            {
+                logger.LogError($"[Delete] Error deleting item: {ex.Message}");
+                return false;
+            }
+        }
+
         public async Task<List<MeasurementRecord>> GetList(string deviceId, DateTime from, DateTime till)
         {
             var changes = new List<MeasurementRecord>();
@@ -124,6 +154,36 @@ namespace AirMonitoring.Core.Persistence
                 .Select(i => i.ToMeasurementRecord())
                 .OrderBy(r => r.Date)
                 .ToList();
+        }
+
+        private async Task<Document?> GetDocument(string deviceId, string date)
+        {
+            var keyExpression = new Expression();
+            keyExpression.ExpressionStatement = "DeviceId = :v_deviceId and #D = :v_date";
+            keyExpression.ExpressionAttributeValues[":v_deviceId"] = deviceId;
+            keyExpression.ExpressionAttributeValues[":v_date"] = date;
+            keyExpression.ExpressionAttributeNames["#D"] = "Date";
+
+            var config = new QueryOperationConfig()
+            {
+                Limit = 1,
+                Select = SelectValues.AllAttributes,
+                BackwardSearch = true,
+                ConsistentRead = true,
+                KeyExpression = keyExpression
+            };
+
+            var queryResult = measurementsTable.Query(config);
+            logger.LogInformation($"[GetLatest] Query result count: {queryResult.Count}");
+
+            var documents = await queryResult.GetNextSetAsync();
+
+            if (documents.Count > 0)
+            {
+                return documents[0];
+            }
+
+            return null;
         }
     }
 }
