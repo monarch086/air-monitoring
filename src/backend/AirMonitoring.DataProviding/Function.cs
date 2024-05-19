@@ -36,7 +36,10 @@ public class Function
             var query = input["queryStringParameters"].Deserialize<QueryModel>(options);
             if (query == null) { return new BadRequestResponse(); }
 
-            var repository = new MeasurementsRepo(context.Logger);
+            var repository = query.Days > 5 
+                ? new AggregatedMeasurementsRepository(context.Logger)
+                : new MeasurementsRepo(context.Logger);
+
             var deviceId = "S4D-12";
 
             var range = TimeSpan.FromDays(query.Days);
@@ -46,15 +49,13 @@ public class Function
             var measurements = records
                 .Select(r => r.ToMeasurement());
 
-            var filledMeasurements = measurements.FillAbsentMeasurements(from, till);
-
             var selector = dataSelectors[query.Type];
             if (selector == null)
             {
                 return new FailResponse($"{query.Type} measurement type is not supported.");
             }
 
-            var data = filledMeasurements
+            var data = measurements
                 .Select(selector)
                 .Where(m => m.Value != null)
                 .ToArray();
