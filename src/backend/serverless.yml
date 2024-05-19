@@ -19,7 +19,9 @@ provider:
             - dynamodb:PutItem
             - dynamodb:UpdateItem
             - dynamodb:DeleteItem
-          Resource: 'arn:aws:dynamodb:eu-central-1:469321902251:table/SmartHome.Measurements'
+          Resource:
+            - 'arn:aws:dynamodb:eu-central-1:469321902251:table/SmartHome.Measurements'
+            - 'arn:aws:dynamodb:eu-central-1:469321902251:table/AirMonitoring.*'
         - Effect: "Allow"
           Action:
             - "sns:Publish"
@@ -32,7 +34,7 @@ provider:
             - "sns:SetTopicAttributes"
             - "sns:DeleteTopic"
             - "sns:CreateTopic"
-          Resource: "*"
+          Resource: "arn:aws:sns:eu-central-1:469321902251:air-monitoring-*"
 
 package:
   individually: true
