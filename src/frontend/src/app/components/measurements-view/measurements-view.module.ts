@@ -5,11 +5,13 @@ import { SharedModule } from 'src/app/shared/shared.module';
 import { MeasurementChartComponent } from './measurement-chart/measurement-chart.component';
 import { NgApexchartsModule } from 'ng-apexcharts';
 import { FormsModule } from '@angular/forms';
+import { GetPeriodNamePipe } from './measurement-chart/get-period-name.pipe';
 
 @NgModule({
   declarations: [
     MeasurementsViewComponent,
-    MeasurementChartComponent
+    MeasurementChartComponent,
+    GetPeriodNamePipe
   ],
   imports: [
     FormsModule,
