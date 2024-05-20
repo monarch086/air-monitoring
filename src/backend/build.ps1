@@ -54,10 +54,4 @@ dotnet lambda package --configuration Release --framework net6.0 --output-packag
 Write-Output ">>> Finished packaging AirMonitoring.Aggregation";
 Set-Location ..
 
-Set-Location ./AirMonitoring.AggregationTrigger
-dotnet restore
-dotnet lambda package --configuration Release --framework net6.0 --output-package bin/Release/net6.0/deploy-package.zip
-Write-Output ">>> Finished packaging AirMonitoring.AggregationTrigger";
-Set-Location ..
-
 Write-Output ">>> >>> >>> Finished all services.";

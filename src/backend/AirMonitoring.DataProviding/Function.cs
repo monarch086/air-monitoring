@@ -1,4 +1,3 @@
-using AirMonitoring.Core.Extensions;
 using AirMonitoring.Core.HTTP;
 using AirMonitoring.Core.HttpResponses;
 using AirMonitoring.Core.Model.MeasurementModel;

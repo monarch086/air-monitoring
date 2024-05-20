@@ -134,11 +134,4 @@ functions:
     name: air-monitoring-${sls:stage}-aggregation
     timeout: 120
     events:
-      - sqs: arn:aws:sqs:eu-central-1:469321902251:air-monitoring-aggregation-queue
-
-  aggregation-trigger:
-    handler: AirMonitoring.AggregationTrigger::AirMonitoring.AggregationTrigger.Function::FunctionHandler
-    package:
-      artifact: AirMonitoring.AggregationTrigger/bin/Release/net6.0/deploy-package.zip
-    name: air-monitoring-${sls:stage}-aggregation-trigger
-    timeout: 30
+      - schedule: cron(0 7 * * ? *)
