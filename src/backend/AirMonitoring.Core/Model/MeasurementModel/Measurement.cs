@@ -7,13 +7,6 @@ namespace AirMonitoring.Core.Model.MeasurementModel
     {
         private const string DATE_TIME_FORMAT = @"dd.MM.yy H:mm";
 
-        private const float MIN_TEMP = 0;
-        private const float MAX_TEMP = 50;
-        private const float MIN_HUMID = 0;
-        private const float MAX_HUMID = 90;
-        private const int MIN_PRESS = 50000;
-        private const int MAX_PRESS = 200000;
-
         [JsonIgnore]
         public string DeviceId { get; set; } = string.Empty;
 
@@ -55,31 +48,6 @@ namespace AirMonitoring.Core.Model.MeasurementModel
                 Bmp085 = new Bmp085Data() { Temperature = "0" },
                 Sht31 = new Sht31Data() { Temperature = "0", Humidity = "0" }
             };
-        }
-
-        public bool Validate()
-        {
-            try
-            {
-                if (string.IsNullOrEmpty(DeviceId) ||
-                    Date > DateTime.UtcNow ||
-                    Date < DateTime.Parse("2023-01-01") ||
-                    float.Parse(Bmp085?.Temperature) < MIN_TEMP ||
-                    float.Parse(Bmp085?.Temperature) > MAX_TEMP ||
-                    float.Parse(Sht31?.Humidity) < MIN_HUMID ||
-                    float.Parse(Sht31?.Humidity) > MAX_HUMID ||
-                    Bmp085?.Pressure < MIN_PRESS ||
-                    Bmp085?.Pressure > MAX_PRESS)
-                {
-                    return false;
-                }
-
-                return true;
-            }
-            catch
-            {
-                return false;
-            }
         }
     }
 }

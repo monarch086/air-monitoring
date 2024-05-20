@@ -16,6 +16,7 @@ public class Function
     public async Task FunctionHandler(SNSEvent snsEvent, ILambdaContext context)
     {
         var snsClient = new AmazonSimpleNotificationServiceClient();
+        var repository = new MeasurementsRepository(context.Logger);
 
         foreach (var record in snsEvent.Records)
         {
@@ -25,9 +26,6 @@ public class Function
             try
             {
                 var message = JsonConvert.DeserializeObject<NewRecordEvent>(snsMessage);
-
-                var repository = new MeasurementsRepository(context.Logger);
-                var deviceId = message;
 
                 var dbRecord = await repository.Get(message.DeviceId, message.Date);
                 if (dbRecord == null)
