@@ -46,6 +46,10 @@ provider:
            - "sqs:ListQueues"
            - "sqs:ListQueueTags"
           Resource: "arn:aws:sqs:eu-central-1:469321902251:air-monitoring-*"
+        - Effect: "Allow"
+          Action:
+           - "ssm:GetParameter"
+          Resource: "arn:aws:ssm:eu-central-1:469321902251:parameter/air-monitoring-*"
 
 package:
   individually: true

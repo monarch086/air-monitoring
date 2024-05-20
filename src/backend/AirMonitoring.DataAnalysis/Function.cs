@@ -73,7 +73,7 @@ public class Function
             }
             catch (Exception ex)
             {
-                context.Logger.LogLine($"Error deserializing message: {ex.Message}");
+                context.Logger.LogLine($"Error processing message: {ex.Message}");
             }
         }
     }

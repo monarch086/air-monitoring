@@ -6,7 +6,7 @@ namespace AirMonitoring.Core.Config;
 
 public class ConfigBuilder
 {
-    private static string TOKEN_PARAM_NAME = "SmartHome.TelegramBot.Token";
+    private static string TOKEN_PARAM_NAME = "air-monitoring-telegram-bot-token";
 
     public static async Task<TelegramConfig> Build(ILambdaLogger logger)
     {
