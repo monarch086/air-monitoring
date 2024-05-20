@@ -7,8 +7,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{F951CD58-D2E
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "backend", "backend", "{C75B7930-F5DB-46DD-8CA7-56B40F0A4EDE}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "service-users", "service-users\service-users.csproj", "{A794B0FE-A723-4884-8B6A-9EEFE0F2DCBD}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AirMonitoring.DataProviding", "AirMonitoring.DataProviding\AirMonitoring.DataProviding.csproj", "{2199AB44-4612-4E71-82A9-D5F9E21AD5E3}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AirMonitoring.DataIngestion", "AirMonitoring.DataIngestion\AirMonitoring.DataIngestion.csproj", "{76638CD7-1CDB-4CB0-A275-C28261E59D94}"
@@ -37,10 +35,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{A794B0FE-A723-4884-8B6A-9EEFE0F2DCBD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A794B0FE-A723-4884-8B6A-9EEFE0F2DCBD}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A794B0FE-A723-4884-8B6A-9EEFE0F2DCBD}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A794B0FE-A723-4884-8B6A-9EEFE0F2DCBD}.Release|Any CPU.Build.0 = Release|Any CPU
 		{2199AB44-4612-4E71-82A9-D5F9E21AD5E3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{2199AB44-4612-4E71-82A9-D5F9E21AD5E3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2199AB44-4612-4E71-82A9-D5F9E21AD5E3}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -91,7 +85,6 @@ Global
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{C75B7930-F5DB-46DD-8CA7-56B40F0A4EDE} = {F951CD58-D2EC-4F67-9C82-498A4B0A6253}
-		{A794B0FE-A723-4884-8B6A-9EEFE0F2DCBD} = {C75B7930-F5DB-46DD-8CA7-56B40F0A4EDE}
 		{2199AB44-4612-4E71-82A9-D5F9E21AD5E3} = {C75B7930-F5DB-46DD-8CA7-56B40F0A4EDE}
 		{76638CD7-1CDB-4CB0-A275-C28261E59D94} = {C75B7930-F5DB-46DD-8CA7-56B40F0A4EDE}
 		{DA71974A-F4E8-44C5-957D-6578097B775F} = {C75B7930-F5DB-46DD-8CA7-56B40F0A4EDE}
