@@ -11,6 +11,7 @@ using Amazon.SimpleNotificationService.Model;
 using AirMonitoring.Core.Model.Events.SNS;
 using AirMonitoring.Core.Resources;
 using Amazon.SimpleNotificationService;
+using AirMonitoring.Core.Model.Repository;
 
 [assembly: LambdaSerializer(typeof(Amazon.Lambda.Serialization.SystemTextJson.DefaultLambdaJsonSerializer))]
 
@@ -22,7 +23,7 @@ public class Function
     {
         try
         {
-            var repository = new MeasurementsRepo(context.Logger);
+            var repository = new MeasurementsRepository(context.Logger);
             var snsClient = new AmazonSimpleNotificationServiceClient();
 
             var query = input["queryStringParameters"].Deserialize<QueryModel>();

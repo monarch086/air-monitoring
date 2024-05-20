@@ -3,10 +3,11 @@ using Amazon.DynamoDBv2;
 using Amazon.Lambda.Core;
 using Amazon.DynamoDBv2.Model;
 using Amazon.Util;
+using AirMonitoring.Core.Model.Repository;
 
 namespace AirMonitoring.Core.Persistence
 {
-    public class MeasurementsRepo
+    public class MeasurementsRepository
     {
         protected virtual string TableName => "SmartHome.Measurements";
 
@@ -14,7 +15,7 @@ namespace AirMonitoring.Core.Persistence
         private readonly Table measurementsTable;
         private readonly ILambdaLogger logger;
 
-        public MeasurementsRepo(ILambdaLogger logger)
+        public MeasurementsRepository(ILambdaLogger logger)
         {
             client = new AmazonDynamoDBClient();
             measurementsTable = Table.LoadTable(client, TableName);

@@ -1,4 +1,5 @@
 using AirMonitoring.Core.Extensions;
+using AirMonitoring.Core.Model.Repository;
 using AirMonitoring.Core.Persistence;
 using Amazon.Lambda.Core;
 using System.Text.Json.Nodes;
@@ -13,7 +14,7 @@ public class Function
     public async Task FunctionHandler(JsonObject input, ILambdaContext context)
     {
         var deviceConfigsRepository = new DeviceConfigRepository(context.Logger);
-        var measurementsRepository = new MeasurementsRepo(context.Logger);
+        var measurementsRepository = new MeasurementsRepository(context.Logger);
         var aggregatedMeasurementsRepository = new AggregatedMeasurementsRepository(context.Logger);
 
         try

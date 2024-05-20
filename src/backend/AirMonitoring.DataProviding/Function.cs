@@ -37,7 +37,7 @@ public class Function
 
             var repository = query.Days > 5 
                 ? new AggregatedMeasurementsRepository(context.Logger)
-                : new MeasurementsRepo(context.Logger);
+                : new MeasurementsRepository(context.Logger);
 
             var deviceId = "S4D-12";
 

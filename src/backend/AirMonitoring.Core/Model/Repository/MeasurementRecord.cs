@@ -2,7 +2,7 @@
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
-namespace AirMonitoring.Core.Persistence
+namespace AirMonitoring.Core.Model.Repository
 {
     public class MeasurementRecord
     {
@@ -24,7 +24,7 @@ namespace AirMonitoring.Core.Persistence
             JsonData = JsonSerializer.Serialize(measurement, options);
         }
 
-        public MeasurementRecord() {}
+        public MeasurementRecord() { }
 
         public Measurement ToMeasurement()
         {

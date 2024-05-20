@@ -26,7 +26,7 @@ public class Function
             {
                 var message = JsonConvert.DeserializeObject<NewRecordEvent>(snsMessage);
 
-                var repository = new MeasurementsRepo(context.Logger);
+                var repository = new MeasurementsRepository(context.Logger);
                 var deviceId = message;
 
                 var dbRecord = await repository.Get(message.DeviceId, message.Date);

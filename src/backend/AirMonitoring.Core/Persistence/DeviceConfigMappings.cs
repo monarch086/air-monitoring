@@ -1,9 +1,9 @@
-﻿using AirMonitoring.Core.Config;
+﻿using AirMonitoring.Core.Model.Repository;
 using Amazon.DynamoDBv2.DocumentModel;
 
 namespace AirMonitoring.Core.Persistence
 {
-    internal static class DeviceConfigRepositoryMappings
+    internal static class DeviceConfigMappings
     {
         public static DeviceConfig ToDeviceConfig(this Document document)
         {

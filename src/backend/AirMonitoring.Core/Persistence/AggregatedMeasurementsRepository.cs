@@ -2,7 +2,7 @@
 
 namespace AirMonitoring.Core.Persistence
 {
-    public class AggregatedMeasurementsRepository : MeasurementsRepo
+    public class AggregatedMeasurementsRepository : MeasurementsRepository
     {
         protected override string TableName => "AirMonitoring.MeasurementsAggregated";
 

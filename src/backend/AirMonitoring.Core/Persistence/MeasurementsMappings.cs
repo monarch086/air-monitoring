@@ -1,9 +1,10 @@
-﻿using Amazon.DynamoDBv2.DocumentModel;
+﻿using AirMonitoring.Core.Model.Repository;
+using Amazon.DynamoDBv2.DocumentModel;
 using Amazon.DynamoDBv2.Model;
 
 namespace AirMonitoring.Core.Persistence
 {
-    internal static class MeasurementsRepoMappings
+    internal static class MeasurementsMappings
     {
         public static Document ToDocument(this MeasurementRecord record)
         {

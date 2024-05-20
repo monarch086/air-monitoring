@@ -1,7 +1,7 @@
 ﻿using Amazon.DynamoDBv2.DocumentModel;
 using Amazon.DynamoDBv2;
 using Amazon.Lambda.Core;
-using AirMonitoring.Core.Config;
+using AirMonitoring.Core.Model.Repository;
 
 namespace AirMonitoring.Core.Persistence
 {

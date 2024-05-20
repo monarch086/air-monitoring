@@ -1,4 +1,4 @@
-﻿namespace AirMonitoring.Core.Config
+﻿namespace AirMonitoring.Core.Model.Repository
 {
     public class DeviceConfig
     {
