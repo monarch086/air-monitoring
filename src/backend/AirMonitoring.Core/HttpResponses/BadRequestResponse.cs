@@ -5,7 +5,7 @@ namespace AirMonitoring.Core.HttpResponses
 {
     public class BadRequestResponse : APIGatewayProxyResponse
     {
-        public BadRequestResponse()
+        public BadRequestResponse(string? error = null)
         {
             StatusCode = (int)HttpStatusCode.BadRequest;
             Headers = new Dictionary<string, string>
@@ -13,6 +13,7 @@ namespace AirMonitoring.Core.HttpResponses
                 { "Access-Control-Allow-Origin", "*" },
                 { "Content-Type", "application/json" }
             };
+            Body = error;
         }
     }
 }

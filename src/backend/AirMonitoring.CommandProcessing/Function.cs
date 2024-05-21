@@ -6,6 +6,9 @@ using Amazon.SQS.Model;
 using AirMonitoring.Core.HttpResponses;
 using AirMonitoring.Core.HTTP;
 using Amazon.Lambda.APIGatewayEvents;
+using AirMonitoring.Core.Resources;
+using AirMonitoring.Core.Persistence;
+using AirMonitoring.Core.Model.Events.SQS;
 
 [assembly: LambdaSerializer(typeof(Amazon.Lambda.Serialization.SystemTextJson.DefaultLambdaJsonSerializer))]
 
@@ -15,6 +18,8 @@ public class Function
 {
     public async Task<APIGatewayProxyResponse> FunctionHandler(JsonObject input, ILambdaContext context)
     {
+        var deviceConfigRepo = new DeviceConfigRepository(context.Logger);
+
         try
         {
             var requestBody = input["body"];
@@ -24,16 +29,31 @@ public class Function
 
             var commandEvent = JsonSerializer.Deserialize<Model.Telegram.CommandEvent>(requestBody.ToString());
             var command = commandEvent?.message?.text;
-            context.Logger.LogLine($"Command: {command}");
+            context.Logger.LogLine($"Received command: {command}");
 
-            // Publish to SQS Queue
-            var queueUrl = "https://sqs.eu-central-1.amazonaws.com/469321902251/SmartHome-Status";
-            context.Logger.LogLine($"Send command to queue: {queueUrl}.");
-            var queueEvent = new Core.Model.Events.SQS.CommandEvent
+            var queueUrl = resolveQueue(command);
+            if (string.IsNullOrEmpty(queueUrl))
+            {
+                return new BadRequestResponse($"Command {command} is not supported.");
+            }
+
+            var chatId = commandEvent?.message?.chat?.id;
+            if (!chatId.HasValue)
+            {
+                return new FailResponse("Could not get chatId from incoming message.");
+            }
+
+            var deviceId = await getDeviceId(chatId.Value, deviceConfigRepo);
+            if (string.IsNullOrEmpty(deviceId))
+            {
+                return new FailResponse("Could not get deviceId.");
+            }
+
+            var queueEvent = new CommandEvent
             {
                 Command = command,
-                ChatId = commandEvent?.message?.chat?.id ?? 0,
-                Params = new string[] { "DeviceId:S4D-12" }
+                ChatId = chatId.Value,
+                DeviceId = deviceId
             };
 
             var amazonSQSClient = new AmazonSQSClient();
@@ -42,7 +62,7 @@ public class Function
             sendRequest.MessageBody = JsonSerializer.Serialize(queueEvent);
             var sendMessageResponse = await amazonSQSClient.SendMessageAsync(sendRequest);
 
-            context.Logger.LogLine($"Send command to queue - response HTTP Status Code: {sendMessageResponse.HttpStatusCode}.");
+            context.Logger.LogLine($"Sent command to queue {queueUrl} - response HTTP Status Code: {sendMessageResponse.HttpStatusCode}.");
 
             return new SuccessResponse("Command was successfully published.");
         }
@@ -51,5 +71,23 @@ public class Function
             context.Logger.LogError(e.ToString());
             return new FailResponse(e.ToString());
         }
+    }
+
+    private string resolveQueue(string command)
+    {
+        switch (command)
+        {
+            case Commands.MONTHLY_REPORT: return SqsQueues.MonthlyReportQueue;
+            case Commands.YEARLY_REPORT: return SqsQueues.YearlyReportQueue;
+            default: return string.Empty;
+        }
+    }
+
+    private async Task<string> getDeviceId(int chatId, DeviceConfigRepository repository)
+    {
+        var deviceConfig = (await repository.GetConfigs())
+                    .FirstOrDefault(c => int.Parse(c.ChatId) == chatId);
+
+        return deviceConfig != null ? deviceConfig.DeviceId : string.Empty;
     }
 }
