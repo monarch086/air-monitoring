@@ -15,6 +15,9 @@ public class Function
     public async Task FunctionHandler(SNSEvent snsEvent, ILambdaContext context)
     {
         var deviceConfigRepo = new DeviceConfigRepository(context.Logger);
+        var telegramConfig = await ConfigBuilder.Build(context.Logger);
+        var bot = new ChatBot(telegramConfig.Token);
+
 
         foreach (var record in snsEvent.Records)
         {
@@ -24,9 +27,6 @@ public class Function
             try
             {
                 var message = JsonConvert.DeserializeObject<AnomalyEvent>(snsMessage);
-                var telegramConfig = await ConfigBuilder.Build(context.Logger);
-                var bot = new ChatBot(telegramConfig.Token);
-
                 var deviceConfig = (await deviceConfigRepo.GetConfigs())
                     .FirstOrDefault(c => c.DeviceId == message.DeviceId);
 
