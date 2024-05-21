@@ -26,7 +26,7 @@ public class Function
 
             context.Logger.LogInformation($"Received command: {payload.Command}.");
 
-            var range = TimeSpan.FromHours(10);
+            var range = TimeSpan.FromDays(30);
             var from = DateTime.UtcNow - range;
             var till = DateTime.UtcNow;
             var records = await repository.GetList(payload.DeviceId, from, till);

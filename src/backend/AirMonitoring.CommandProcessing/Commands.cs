@@ -2,8 +2,8 @@
 {
     internal static class Commands
     {
-        public const string MONTHLY_REPORT = "month";
+        public const string MONTHLY_REPORT = "/month";
 
-        public const string YEARLY_REPORT = "year";
+        public const string YEARLY_REPORT = "/year";
     }
 }
