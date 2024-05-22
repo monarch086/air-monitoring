@@ -133,7 +133,7 @@ functions:
     package:
       artifact: AirMonitoring.YearlyReporting/bin/Release/net6.0/deploy-package.zip
     name: air-monitoring-${sls:stage}-yearly-reporting
-    timeout: 30
+    timeout: 60
     events:
       - sqs: arn:aws:sqs:eu-central-1:469321902251:air-monitoring-yearly-report-queue
 
