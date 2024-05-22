@@ -3,7 +3,6 @@ using System.Text.Json.Nodes;
 using System.Text.Json;
 using Amazon.SQS;
 using Amazon.SQS.Model;
-using AirMonitoring.Core.HttpResponses;
 using AirMonitoring.Core.HTTP;
 using Amazon.Lambda.APIGatewayEvents;
 using AirMonitoring.Core.Resources;
@@ -23,7 +22,7 @@ public class Function
         try
         {
             var requestBody = input["body"];
-            if (requestBody == null) { return new BadRequestResponse(); }
+            if (requestBody == null) { throw new ArgumentException("There is no body in the message"); }
 
             context.Logger.LogLine(requestBody.ToString());
 
@@ -34,19 +33,19 @@ public class Function
             var queueUrl = resolveQueue(command);
             if (string.IsNullOrEmpty(queueUrl))
             {
-                return new BadRequestResponse($"Command {command} is not supported.");
+                throw new ArgumentException($"Command {command} is not supported.");
             }
 
             var chatId = commandEvent?.message?.chat?.id;
             if (!chatId.HasValue)
             {
-                return new FailResponse("Could not get chatId from incoming message.");
+                throw new ArgumentException("Could not get chatId from incoming message.");
             }
 
             var deviceId = await getDeviceId(chatId.Value, deviceConfigRepo);
             if (string.IsNullOrEmpty(deviceId))
             {
-                return new FailResponse("Could not get deviceId.");
+                throw new InvalidOperationException("Could not get deviceId.");
             }
 
             var queueEvent = new CommandEvent
@@ -57,9 +56,11 @@ public class Function
             };
 
             var amazonSQSClient = new AmazonSQSClient();
-            var sendRequest = new SendMessageRequest();
-            sendRequest.QueueUrl = queueUrl;
-            sendRequest.MessageBody = JsonSerializer.Serialize(queueEvent);
+            var sendRequest = new SendMessageRequest
+            {
+                QueueUrl = queueUrl,
+                MessageBody = JsonSerializer.Serialize(queueEvent)
+            };
             var sendMessageResponse = await amazonSQSClient.SendMessageAsync(sendRequest);
 
             context.Logger.LogLine($"Sent command to queue {queueUrl} - response HTTP Status Code: {sendMessageResponse.HttpStatusCode}.");
@@ -69,7 +70,7 @@ public class Function
         catch (Exception e)
         {
             context.Logger.LogError(e.ToString());
-            return new FailResponse(e.ToString());
+            return new SuccessResponse(e.ToString());
         }
     }
 

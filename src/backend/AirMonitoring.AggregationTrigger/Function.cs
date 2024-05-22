@@ -15,8 +15,10 @@ public class Function
     public async Task FunctionHandler(JsonObject input, ILambdaContext context)
     {
         var amazonSQSClient = new AmazonSQSClient();
-        var sendRequest = new SendMessageRequest();
-        sendRequest.QueueUrl = SqsQueues.AggregationQueue;
+        var sendRequest = new SendMessageRequest
+        {
+            QueueUrl = SqsQueues.AggregationQueue
+        };
 
         var from = DateTime.Parse("2023-02-01");
 
