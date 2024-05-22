@@ -19,9 +19,9 @@ namespace AirMonitoring.Core
 
         private static ImageCharts generateLineChart(string[] data, TimeSpan range, string unitLabel)
         {
-            var highestTempRange = (int) Math.Round(decimal.Parse(data.Max())) + 2;
-            var lowestTempRange = (int) Math.Round(decimal.Parse(data.Min())) - 2;
-            lowestTempRange = lowestTempRange < 0 ? 0 : lowestTempRange;
+            var yMaxLimit = (int) Math.Round(decimal.Parse(data.Max())) + 2;
+            var yMinLimit = (int) Math.Round(decimal.Parse(data.Min())) - 2;
+            yMinLimit = yMinLimit < 0 ? 0 : yMinLimit;
 
             return new ImageCharts()
                 .cht(LINE_CHART_TYPE)
@@ -35,8 +35,8 @@ namespace AirMonitoring.Core
                 .chm(BLUE_FILL)
                 .chco(BLUE_LINE)
                 .chxt("x,y") //which axis should have labels
-                .chxr($"1,{lowestTempRange},{highestTempRange}") //ranges
-                .chxl($"{getXLabels(range)}{getYLabels(lowestTempRange, highestTempRange)}"); //axis labels
+                .chxr($"1,{yMinLimit},{yMaxLimit}") //ranges
+                .chxl($"{getXLabels(range)}{getYLabels(yMinLimit, yMaxLimit)}"); //axis labels
         }
 
         private static string[] shrinkLabels(string[] data)
@@ -76,13 +76,18 @@ namespace AirMonitoring.Core
         {
             var sb = new StringBuilder("0:|");
             var now = DateTime.UtcNow.ToKyivTime();
+            var counter = range.Days;
 
-            var counter = range.Days > 0 ? range.Days : range.Hours > 0 ? range.Hours : range.Minutes > 0 ? range.Minutes : 0;
+            var isYear = counter > 360;
 
             for (int i = 0; i <= counter; i++)
             {
-                var hour = now.AddHours(i - counter).Hour;
-                sb.Append($"{hour}|");
+                if (isYear && (i % 15 != 0)) continue;
+
+                var item = isYear
+                    ? now.AddDays(i - counter).ToShortDateString()
+                    : now.AddDays(i - counter).Day.ToString();
+                sb.Append($"{item}|");
             }
 
             return sb.ToString();
