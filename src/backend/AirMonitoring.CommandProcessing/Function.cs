@@ -80,6 +80,7 @@ public class Function
         {
             case Commands.MONTHLY_REPORT: return SqsQueues.MonthlyReportQueue;
             case Commands.YEARLY_REPORT: return SqsQueues.YearlyReportQueue;
+            case Commands.LATEST: return SqsQueues.LatestMeasurementsQueue;
             default: return string.Empty;
         }
     }

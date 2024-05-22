@@ -5,5 +5,7 @@
         public const string MONTHLY_REPORT = "/month";
 
         public const string YEARLY_REPORT = "/year";
+
+        public const string LATEST = "/latest";
     }
 }
