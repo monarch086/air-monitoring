@@ -33,16 +33,21 @@ public class Function
             var measurements = records
                 .Select(r => r.ToMeasurement());
 
-           // var filledMeasurements = measurements.FillAbsentMeasurements(from, till);
-
             var tempData = measurements
                 .Select(m => m.Sht31?.Temperature)
                 .Where(v => v != null)
                 .ToArray();
 
-            var chart = ChartGenerator.Generate(tempData, range);
-            var lastMeasurement = measurements.Last();
-            await bot.PostImageBytes(chart, lastMeasurement.ToString(), payload.ChatId);
+            var tempChart = ChartGenerator.Generate(tempData, range, "t,°C");
+            await bot.PostImageBytes(tempChart, "Last month temperature measurements", payload.ChatId);
+
+            var humidData = measurements
+                .Select(m => m.Sht31?.Humidity)
+                .Where(v => v != null)
+                .ToArray();
+
+            var humidChart = ChartGenerator.Generate(humidData, range, "%");
+            await bot.PostImageBytes(humidChart, "Last month humidity measurements", payload.ChatId);
         }
         catch (Exception e)
         {

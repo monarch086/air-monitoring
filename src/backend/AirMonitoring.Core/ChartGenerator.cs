@@ -11,13 +11,13 @@ namespace AirMonitoring.Core
         private const string LINE_WIDTH = "2";
         private const string LINE_CHART_TYPE = "lc";
 
-        public static byte[] Generate(string[] data, TimeSpan range)
+        public static byte[] Generate(string[] data, TimeSpan range, string unitLabel)
         {
-            return generateLineChart(data, range)
+            return generateLineChart(data, range, unitLabel)
                 .toBuffer();
         }
 
-        private static ImageCharts generateLineChart(string[] data, TimeSpan range)
+        private static ImageCharts generateLineChart(string[] data, TimeSpan range, string unitLabel)
         {
             var highestTempRange = (int) Math.Round(decimal.Parse(data.Max())) + 2;
             var lowestTempRange = (int) Math.Round(decimal.Parse(data.Min())) - 2;
@@ -27,7 +27,7 @@ namespace AirMonitoring.Core
                 .cht(LINE_CHART_TYPE)
                 .chs("500x300")
                 .chd($"a:{string.Join(",", data)}") //data
-                .chdl("t,°C")
+                .chdl(unitLabel)
                 .chl($"{string.Join("|", shrinkLabels(data))}") //labels on data
                 .chlps("align,top")
                 .chls(LINE_WIDTH)

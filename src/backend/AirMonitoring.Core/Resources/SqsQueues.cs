@@ -7,5 +7,7 @@
         public static string MonthlyReportQueue = $"https://sqs.{AccountSettings.Region}.amazonaws.com/{AccountSettings.AccountId}/air-monitoring-monthly-report-queue";
 
         public static string YearlyReportQueue = $"https://sqs.{AccountSettings.Region}.amazonaws.com/{AccountSettings.AccountId}/air-monitoring-yearly-report-queue";
+
+        public static string LatestMeasurementsQueue = $"https://sqs.{AccountSettings.Region}.amazonaws.com/{AccountSettings.AccountId}/air-monitoring-latest-measurements-queue";
     }
 }
