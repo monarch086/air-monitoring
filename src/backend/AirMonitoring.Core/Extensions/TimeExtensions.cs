@@ -2,7 +2,7 @@
 
 public static class TimeExtensions
 {
-    private static TimeZoneInfo KyivZone = TimeZoneInfo.FindSystemTimeZoneById("Europe/Kiev");
+    private static TimeZoneInfo KyivZone = TimeZoneInfo.FindSystemTimeZoneById("Europe/Kyiv");
 
     public static DateTime FromKyivTime(this DateTime time)
     {
@@ -11,6 +11,6 @@ public static class TimeExtensions
 
     public static DateTime ToKyivTime(this DateTime time)
     {
-        return TimeZoneInfo.ConvertTimeFromUtc(time, KyivZone);
+        return TimeZoneInfo.ConvertTimeFromUtc(time.ToUniversalTime(), KyivZone);
     }
 }

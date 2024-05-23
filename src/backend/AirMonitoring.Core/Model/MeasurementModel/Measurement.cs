@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using AirMonitoring.Core.Extensions;
+using System.Text;
 using System.Text.Json.Serialization;
 
 namespace AirMonitoring.Core.Model.MeasurementModel
@@ -23,7 +24,7 @@ namespace AirMonitoring.Core.Model.MeasurementModel
         {
             var sb = new StringBuilder();
 
-            sb.AppendLine($"Record date: {Date.ToString(DATE_TIME_FORMAT)}");
+            sb.AppendLine($"Record date: {Date.ToKyivTime().ToString(DATE_TIME_FORMAT)}");
 
             if (Bmp085 != null)
             {
