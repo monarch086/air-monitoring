@@ -22,40 +22,24 @@ namespace AirMonitoring.Core
             var yMaxLimit = (int) Math.Round(decimal.Parse(data.Max())) + 2;
             var yMinLimit = (int) Math.Round(decimal.Parse(data.Min())) - 2;
             yMinLimit = yMinLimit < 0 ? 0 : yMinLimit;
+            var needRotation = range.Days > 360;
+
 
             return new ImageCharts()
                 .cht(LINE_CHART_TYPE)
                 .chs("500x300")
-                .chd($"a:{string.Join(",", data)}") //data
+                .chd($"a:{string.Join(",", data)}")
                 .chdl(unitLabel)
-                .chl($"{string.Join("|", shrinkLabels(data))}") //labels on data
+                .chg("40,100,5,5,CECECE")
                 .chlps("align,top")
                 .chls(LINE_WIDTH)
                 .chma("10,30,30,10")
                 .chm(BLUE_FILL)
                 .chco(BLUE_LINE)
                 .chxt("x,y") //which axis should have labels
+                .chxs(needRotation ? "0,s,min40" : "0,s")
                 .chxr($"1,{yMinLimit},{yMaxLimit}") //ranges
                 .chxl($"{getXLabels(range)}{getYLabels(yMinLimit, yMaxLimit)}"); //axis labels
-        }
-
-        private static string[] shrinkLabels(string[] data)
-        {
-            var maxLabelCount = 5;
-            var skip = data.Length / maxLabelCount;
-            var zero = "0";
-
-            for (int i = 0; i < data.Length; i++)
-            {
-                if (i == data.Length - 1) continue;
-
-                if (i == 0 || i % skip != 0 || data[i] == zero)
-                {
-                    data[i] = string.Empty;
-                }
-            }
-
-            return data;
         }
 
         private static string getYLabels(int lowest, int highest)
@@ -74,19 +58,35 @@ namespace AirMonitoring.Core
 
         private static string getXLabels(TimeSpan range)
         {
+            var isYear = range.Days > 360;
+
+            return isYear ? getYearXLabels(range) : getMonthXLabels(range);
+        }
+
+        private static string getMonthXLabels(TimeSpan range)
+        {
             var sb = new StringBuilder("0:|");
             var now = DateTime.UtcNow.ToKyivTime();
             var counter = range.Days;
 
-            var isYear = counter > 360;
+            for (int i = 0; i <= counter; i++)
+            {
+                var item = now.AddDays(i - counter).Day.ToString();
+                sb.Append($"{item}|");
+            }
+
+            return sb.ToString();
+        }
+
+        private static string getYearXLabels(TimeSpan range)
+        {
+            var sb = new StringBuilder("0:|");
+            var now = DateTime.UtcNow.ToKyivTime();
+            var counter = range.Days;
 
             for (int i = 0; i <= counter; i++)
             {
-                if (isYear && (i % 15 != 0)) continue;
-
-                var item = isYear
-                    ? now.AddDays(i - counter).ToShortDateString()
-                    : now.AddDays(i - counter).Day.ToString();
+                var item = now.AddDays(i - counter).ToString("MMM");
                 sb.Append($"{item}|");
             }
 
