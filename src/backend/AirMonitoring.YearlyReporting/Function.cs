@@ -39,7 +39,7 @@ public class Function
                 .ToArray();
 
             var tempChart = ChartGenerator.Generate(tempData, range, "t,°C");
-            await bot.PostImageBytes(tempChart, "Last year temperature measurements", payload.ChatId);
+            await bot.PostImageBytes(tempChart, "Recent year temperature measurements", payload.ChatId);
 
             var humidData = measurements
                 .Select(m => m.Sht31?.Humidity)
@@ -47,7 +47,7 @@ public class Function
                 .ToArray();
 
             var humidChart = ChartGenerator.Generate(humidData, range, "%");
-            await bot.PostImageBytes(humidChart, "Last year humidity measurements", payload.ChatId);
+            await bot.PostImageBytes(humidChart, "Recent year humidity measurements", payload.ChatId);
         }
         catch (Exception e)
         {
