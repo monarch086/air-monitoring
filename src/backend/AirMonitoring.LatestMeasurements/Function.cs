@@ -16,7 +16,7 @@ public class Function
     {
         var config = await ConfigBuilder.Build(context.Logger);
         var bot = new ChatBot(config.Token);
-        var repository = new AggregatedMeasurementsRepository(context.Logger);
+        var repository = new MeasurementsRepository(context.Logger);
 
         try
         {
