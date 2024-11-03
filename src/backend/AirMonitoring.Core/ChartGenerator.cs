@@ -1,6 +1,7 @@
 ﻿using ImageChartsLib;
 using AirMonitoring.Core.Extensions;
 using System.Text;
+using Newtonsoft.Json.Linq;
 
 namespace AirMonitoring.Core
 {
@@ -58,8 +59,8 @@ namespace AirMonitoring.Core
 
         private static string getXLabels(TimeSpan range)
         {
-            var isDay = range.Hours < 25;
-            var isYear = range.Days > 360;
+            var isDay = range.TotalHours < 25;
+            var isYear = range.TotalDays > 360;
 
             return isDay ? getDayXLabels(range)
                 : isYear ? getYearXLabels(range)
@@ -70,10 +71,15 @@ namespace AirMonitoring.Core
         {
             var sb = new StringBuilder("0:|");
             var now = DateTime.UtcNow.ToKyivTime();
-            var counter = range.Hours;
+            var counter = range.TotalHours;
+
+            var itemsToShow = 12;
+            var skipFactor = counter / itemsToShow;
 
             for (int i = 0; i <= counter; i++)
             {
+                if (i % skipFactor != 0) continue;
+
                 var item = now.AddHours(i - counter).Hour.ToString();
                 sb.Append($"{item}|");
             }
