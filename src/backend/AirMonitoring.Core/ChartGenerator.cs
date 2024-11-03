@@ -58,9 +58,29 @@ namespace AirMonitoring.Core
 
         private static string getXLabels(TimeSpan range)
         {
+            var isDay = range.Hours < 25;
             var isYear = range.Days > 360;
 
-            return isYear ? getYearXLabels(range) : getMonthXLabels(range);
+            return isDay ? getDayXLabels(range)
+                : isYear ? getYearXLabels(range)
+                    : getMonthXLabels(range);
+        }
+
+        private static string getDayXLabels(TimeSpan range)
+        {
+            var sb = new StringBuilder("0:|");
+            var now = DateTime.UtcNow.ToKyivTime();
+            var counter = range.Hours;
+
+            for (int i = 0; i <= counter; i++)
+            {
+                var item = now.AddHours(i - counter).Hour.ToString();
+                sb.Append($"{item}|");
+            }
+
+            Console.WriteLine(sb.ToString());
+
+            return sb.ToString();
         }
 
         private static string getMonthXLabels(TimeSpan range)

@@ -27,7 +27,7 @@ public class Function
 
             if (payload != null)
             {
-                var range = TimeSpan.FromHours(10);
+                var range = TimeSpan.FromHours(24);
                 var from = DateTime.UtcNow - range;
                 var till = DateTime.UtcNow;
                 var records = await repository.GetList(payload.DeviceId, from, till);
