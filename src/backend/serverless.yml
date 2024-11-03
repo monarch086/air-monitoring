@@ -144,7 +144,10 @@ functions:
     name: air-monitoring-${sls:stage}-latest-measurements
     timeout: 10
     events:
-      - sqs: arn:aws:sqs:eu-central-1:469321902251:air-monitoring-latest-measurements-queue
+      # - sqs: arn:aws:sqs:eu-central-1:469321902251:air-monitoring-latest-measurements-queue
+      - schedule:
+          rate: rate(1 hour)
+          enabled: true
 
   aggregation:
     handler: AirMonitoring.Aggregation::AirMonitoring.Aggregation.Function::FunctionHandler
