@@ -12,7 +12,7 @@ namespace AirMonitoring.MonthlyReporting;
 
 public class Function
 {
-    public async Task FunctionHandler(SQSEvent sqsEvent, ILambdaContext context)
+    public async Task FunctionHandler(object inputEvent, ILambdaContext context)
     {
         var config = await ConfigBuilder.Build(context.Logger);
         var bot = new ChatBot(config.Token);
@@ -20,11 +20,12 @@ public class Function
 
         try
         {
-            var payload = JsonSerializer.Deserialize<CommandEvent>(sqsEvent.Records[0].Body);
-            if (payload == null || payload.Command == null)
-                return;
+            var payload = inputEvent is SQSEvent sqsEvent && sqsEvent.Records.Count > 0
+                ? GetPayloadFromSqsEvent(sqsEvent, context)
+                : GetPayloadFromCronEvent();
 
-            context.Logger.LogInformation($"Received command: {payload.Command}.");
+            if (payload == null)
+                return;
 
             var range = TimeSpan.FromDays(30);
             var from = DateTime.UtcNow - range;
@@ -53,5 +54,20 @@ public class Function
         {
             context.Logger.LogError(e.ToString());
         }
+    }
+
+    private CommandEvent? GetPayloadFromSqsEvent(SQSEvent sqsEvent, ILambdaContext context)
+    {
+        var payload = JsonSerializer.Deserialize<CommandEvent>(sqsEvent.Records[0].Body);
+        return payload;
+    }
+
+    private CommandEvent GetPayloadFromCronEvent()
+    {
+        return new CommandEvent
+        {
+            ChatId = 38627946,
+            DeviceId = "S4D-12"
+        };
     }
 }
