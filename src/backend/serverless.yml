@@ -58,7 +58,7 @@ functions:
   data-providing:
     handler: AirMonitoring.DataProviding::AirMonitoring.DataProviding.Function::FunctionHandler
     package:
-      artifact: AirMonitoring.DataProviding/bin/Release/net6.0/deploy-package.zip
+      artifact: AirMonitoring.DataProviding/bin/Release/net6.0/deploy-package-data-providing.zip
     name: air-monitoring-${sls:stage}-data-providing
     timeout: 30
     url:
@@ -71,7 +71,7 @@ functions:
   data-ingestion:
     handler: AirMonitoring.DataIngestion::AirMonitoring.DataIngestion.Function::FunctionHandler
     package:
-      artifact: AirMonitoring.DataIngestion/bin/Release/net6.0/deploy-package.zip
+      artifact: AirMonitoring.DataIngestion/bin/Release/net6.0/deploy-package-data-ingestion.zip
     name: air-monitoring-${sls:stage}-data-ingestion
     url:
       cors: true
@@ -83,7 +83,7 @@ functions:
   data-validation:
     handler: AirMonitoring.DataValidation::AirMonitoring.DataValidation.Function::FunctionHandler
     package:
-      artifact: AirMonitoring.DataValidation/bin/Release/net6.0/deploy-package.zip
+      artifact: AirMonitoring.DataValidation/bin/Release/net6.0/deploy-package-data-validation.zip
     name: air-monitoring-${sls:stage}-data-validation
     events:
       - sns:
@@ -92,7 +92,7 @@ functions:
   data-analysis:
     handler: AirMonitoring.DataAnalysis::AirMonitoring.DataAnalysis.Function::FunctionHandler
     package:
-      artifact: AirMonitoring.DataAnalysis/bin/Release/net6.0/deploy-package.zip
+      artifact: AirMonitoring.DataAnalysis/bin/Release/net6.0/deploy-package-data-analysis.zip
     name: air-monitoring-${sls:stage}-data-analysis
     events:
       - sns:
@@ -101,7 +101,7 @@ functions:
   alerting:
     handler: AirMonitoring.Alerting::AirMonitoring.Alerting.Function::FunctionHandler
     package:
-      artifact: AirMonitoring.Alerting/bin/Release/net6.0/deploy-package.zip
+      artifact: AirMonitoring.Alerting/bin/Release/net6.0/deploy-package-alerting.zip
     name: air-monitoring-${sls:stage}-alerting
     events:
       - sns:
@@ -110,7 +110,7 @@ functions:
   command-processing:
     handler: AirMonitoring.CommandProcessing::AirMonitoring.CommandProcessing.Function::FunctionHandler
     package:
-      artifact: AirMonitoring.CommandProcessing/bin/Release/net6.0/deploy-package.zip
+      artifact: AirMonitoring.CommandProcessing/bin/Release/net6.0/deploy-package-command-processing.zip
     name: air-monitoring-${sls:stage}-command-processing
     url:
       cors: true
@@ -122,7 +122,7 @@ functions:
   monthly-reporting:
     handler: AirMonitoring.MonthlyReporting::AirMonitoring.MonthlyReporting.Function::FunctionHandler
     package:
-      artifact: AirMonitoring.MonthlyReporting/bin/Release/net6.0/deploy-package.zip
+      artifact: AirMonitoring.MonthlyReporting/bin/Release/net6.0/deploy-package-monthly-reporting.zip
     name: air-monitoring-${sls:stage}-monthly-reporting
     timeout: 30
     events:
@@ -134,7 +134,7 @@ functions:
   # yearly-reporting:
   #   handler: AirMonitoring.YearlyReporting::AirMonitoring.YearlyReporting.Function::FunctionHandler
   #   package:
-  #     artifact: AirMonitoring.YearlyReporting/bin/Release/net6.0/deploy-package.zip
+  #     artifact: AirMonitoring.YearlyReporting/bin/Release/net6.0/deploy-package-yearly-reporting.zip
   #   name: air-monitoring-${sls:stage}-yearly-reporting
   #   timeout: 60
   #   events:
@@ -143,7 +143,7 @@ functions:
   latest-measurements:
     handler: AirMonitoring.LatestMeasurements::AirMonitoring.LatestMeasurements.Function::FunctionHandler
     package:
-      artifact: AirMonitoring.LatestMeasurements/bin/Release/net6.0/deploy-package.zip
+      artifact: AirMonitoring.LatestMeasurements/bin/Release/net6.0/deploy-package-latest-measurements.zip
     name: air-monitoring-${sls:stage}-latest-measurements
     timeout: 120
     events:
@@ -155,7 +155,7 @@ functions:
   aggregation:
     handler: AirMonitoring.Aggregation::AirMonitoring.Aggregation.Function::FunctionHandler
     package:
-      artifact: AirMonitoring.Aggregation/bin/Release/net6.0/deploy-package.zip
+      artifact: AirMonitoring.Aggregation/bin/Release/net6.0/deploy-package-aggregation.zip
     name: air-monitoring-${sls:stage}-aggregation
     timeout: 120
     events:
