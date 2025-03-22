@@ -145,7 +145,7 @@ functions:
     package:
       artifact: AirMonitoring.LatestMeasurements/bin/Release/net6.0/deploy-package.zip
     name: air-monitoring-${sls:stage}-latest-measurements
-    timeout: 30
+    timeout: 120
     events:
       # - sqs: arn:aws:sqs:eu-central-1:469321902251:air-monitoring-latest-measurements-queue
       - schedule:
